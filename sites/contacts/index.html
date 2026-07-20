@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>联系人管理</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>联系人管理</h1>
+    </header>
+
+    <section class="panel" aria-labelledby="add-title">
+      <h2 id="add-title">新增联系人</h2>
+      <form id="contact-form">
+        <div class="fields">
+          <label>
+            姓名
+            <input id="name-input" name="name" type="text" placeholder="请输入姓名" autocomplete="off" required />
+          </label>
+          <label>
+            电话
+            <input id="phone-input" name="phone" type="tel" placeholder="请输入电话" autocomplete="off" required />
+          </label>
+        </div>
+        <button type="submit" id="add-btn" class="primary">新增</button>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="list-title">
+      <div class="list-header">
+        <h2 id="list-title">联系人列表</h2>
+        <input id="search-input" type="search" placeholder="搜索姓名或电话" aria-label="搜索联系人" />
+      </div>
+      <ul id="contact-list" class="contact-list">
+        <!-- 联系人项由 app.js 渲染，结构示例：
+        <li class="contact-item">
+          <div class="contact-info">
+            <span class="contact-name">张三</span>
+            <span class="contact-phone">13800000000</span>
+          </div>
+          <div class="contact-actions">
+            <button type="button" class="edit-btn">编辑</button>
+            <button type="button" class="delete-btn danger">删除</button>
+          </div>
+        </li>
+        -->
+      </ul>
+      <p id="empty-tip" class="empty-tip">暂无联系人</p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
