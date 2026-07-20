@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>单位换算器</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>单位换算器</h1>
+    <div class="tabs">
+      <button type="button" class="tab active" data-category="length">长度</button>
+      <button type="button" class="tab" data-category="weight">重量</button>
+    </div>
+    <div class="converter">
+      <div class="field">
+        <input type="number" id="from-value" value="1" step="any" />
+        <select id="from-unit"></select>
+      </div>
+      <div class="equals">=</div>
+      <div class="field">
+        <input type="number" id="to-value" readonly />
+        <select id="to-unit"></select>
+      </div>
+    </div>
+    <p class="hint" id="formula"></p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
