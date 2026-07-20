@@ -11,6 +11,21 @@
   var list = document.getElementById("contact-list");
   var emptyTip = document.getElementById("empty-tip");
 
+  var PHONE_RE = /^[+]?[0-9][0-9\- ]{4,19}$/;
+
+  var formError = document.createElement("p");
+  formError.className = "form-error";
+  formError.style.color = "#dc2626";
+  formError.style.display = "none";
+  form.appendChild(formError);
+
+  var cancelBtn = document.createElement("button");
+  cancelBtn.type = "button";
+  cancelBtn.id = "cancel-btn";
+  cancelBtn.textContent = "取消";
+  cancelBtn.style.display = "none";
+  addBtn.insertAdjacentElement("afterend", cancelBtn);
+
   var contacts = load();
   var editingId = null;
 
@@ -18,14 +33,36 @@
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       var data = raw ? JSON.parse(raw) : [];
-      return Array.isArray(data) ? data : [];
+      if (!Array.isArray(data)) return [];
+      return data.filter(function (c) {
+        return (
+          c &&
+          typeof c.id === "string" &&
+          typeof c.name === "string" &&
+          typeof c.phone === "string"
+        );
+      });
     } catch (e) {
       return [];
     }
   }
 
   function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
+    } catch (e) {
+      showError("保存失败，数据仅本次会话有效");
+    }
+  }
+
+  function showError(msg) {
+    formError.textContent = msg;
+    formError.style.display = "";
+  }
+
+  function clearError() {
+    formError.textContent = "";
+    formError.style.display = "none";
   }
 
   function genId() {
@@ -48,7 +85,8 @@
     list.innerHTML = "";
     items.forEach(function (c) {
       var li = document.createElement("li");
-      li.className = "contact-item";
+      li.className = "contact-item" + (c.id === editingId ? " editing" : "");
+      if (c.id === editingId) li.style.outline = "2px solid #f59e0b";
       li.dataset.id = c.id;
 
       var info = document.createElement("div");
@@ -91,13 +129,33 @@
     editingId = null;
     form.reset();
     addBtn.textContent = "新增";
+    cancelBtn.style.display = "none";
+    clearError();
   }
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var name = nameInput.value.trim();
     var phone = phoneInput.value.trim();
-    if (!name || !phone) return;
+    if (!name) {
+      showError("请输入姓名");
+      nameInput.focus();
+      return;
+    }
+    if (!PHONE_RE.test(phone)) {
+      showError("电话格式不正确（5-20 位数字，可含 +、-、空格）");
+      phoneInput.focus();
+      return;
+    }
+    var duplicate = contacts.some(function (c) {
+      return c.phone === phone && c.id !== editingId;
+    });
+    if (duplicate) {
+      showError("该电话已存在，不能重复添加");
+      phoneInput.focus();
+      return;
+    }
+    clearError();
 
     if (editingId !== null) {
       var target = contacts.find(function (c) {
@@ -131,6 +189,9 @@
       nameInput.value = contact.name;
       phoneInput.value = contact.phone;
       addBtn.textContent = "保存";
+      cancelBtn.style.display = "";
+      clearError();
+      render();
       nameInput.focus();
     } else if (btn.classList.contains("delete-btn")) {
       if (window.confirm("确定删除联系人「" + contact.name + "」吗？")) {
@@ -142,6 +203,11 @@
         render();
       }
     }
+  });
+
+  cancelBtn.addEventListener("click", function () {
+    resetForm();
+    render();
   });
 
   searchInput.addEventListener("input", render);
