@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>待办清单</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>待办清单</h1>
+    <form id="todo-form" class="todo-form">
+      <input
+        type="text"
+        id="todo-input"
+        placeholder="输入新的待办事项…"
+        autocomplete="off"
+      />
+      <button type="submit" id="add-btn">新增</button>
+    </form>
+    <ul id="todo-list" class="todo-list"></ul>
+    <p id="empty-tip" class="empty-tip">暂无待办事项，快来添加一条吧！</p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
