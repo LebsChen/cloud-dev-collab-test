@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #1f2937;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px 40px;
+  width: min(420px, 90vw);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+}
+
+.hint {
+  color: #6b7280;
+  margin: 0 0 20px;
+}
+
+#guess-form {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+#guess-input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+}
+
+#guess-input:focus {
+  outline: none;
+  border-color: #2a5298;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #2a5298;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1e3c72;
+}
+
+.feedback {
+  min-height: 1.4em;
+  font-weight: 600;
+  margin: 18px 0 6px;
+}
+
+.feedback.high { color: #dc2626; }
+.feedback.low { color: #d97706; }
+.feedback.correct { color: #16a34a; }
+.feedback.invalid { color: #6b7280; }
+
+.count {
+  color: #6b7280;
+  margin: 0 0 12px;
+}
+
+.restart {
+  background: #16a34a;
+}
+
+.restart:hover {
+  background: #15803d;
+}
