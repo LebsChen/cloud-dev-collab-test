@@ -95,6 +95,40 @@ body {
   word-break: break-word;
 }
 
+.note-filter {
+  margin-bottom: calc(var(--space) * 1.5);
+}
+
+.filter-input {
+  width: 100%;
+}
+
+.note-text {
+  margin: 0 0 0.5rem;
+}
+
+.note-time {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  cursor: pointer;
+}
+
 .site-footer {
   text-align: center;
   color: var(--color-muted);

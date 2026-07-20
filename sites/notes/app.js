@@ -7,14 +7,16 @@
   var addBtn = document.getElementById('add-btn');
   var list = document.getElementById('notes-list');
 
+  var filterInput = document.getElementById('filter-input');
+
   var notes = loadNotes();
   var filterKeyword = '';
 
-  var filterInput = createFilterInput();
   render();
 
   addBtn.addEventListener('click', addNote);
   input.addEventListener('keydown', function (e) {
+    if (e.isComposing || e.keyCode === 229) return;
     if (e.key === 'Enter') addNote();
   });
   filterInput.addEventListener('input', function () {
@@ -26,14 +28,21 @@
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       var parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(function (n) {
+        return n && typeof n.text === 'string';
+      });
     } catch (e) {
       return [];
     }
   }
 
   function saveNotes() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+    } catch (e) {
+      window.alert('保存失败：浏览器存储不可用或已满，便签将无法持久化。');
+    }
   }
 
   function addNote() {
@@ -51,6 +60,7 @@
   }
 
   function deleteNote(id) {
+    if (!window.confirm('确定删除这条便签吗？')) return;
     notes = notes.filter(function (n) { return n.id !== id; });
     saveNotes();
     render();
@@ -73,25 +83,6 @@
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
       ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
-  }
-
-  function createFilterInput() {
-    var section = document.createElement('section');
-    section.className = 'note-filter';
-    section.setAttribute('aria-label', '过滤便签');
-
-    var el = document.createElement('input');
-    el.type = 'search';
-    el.id = 'filter-input';
-    el.className = 'note-input filter-input';
-    el.placeholder = '按关键词过滤便签……';
-    el.setAttribute('aria-label', '按关键词过滤便签');
-    section.appendChild(el);
-
-    var form = document.querySelector('.note-form');
-    form.parentNode.insertBefore(section, form.nextSibling);
-    section.style.marginBottom = '1.5rem';
-    return el;
   }
 
   function render() {
@@ -119,17 +110,14 @@
       var text = document.createElement('p');
       text.className = 'note-text';
       text.textContent = note.text;
-      text.style.margin = '0 0 0.5rem';
 
       var time = document.createElement('time');
       time.className = 'note-time';
       time.dateTime = new Date(note.createdAt).toISOString();
       time.textContent = formatTime(note.createdAt);
-      time.style.cssText = 'display:block;font-size:0.75rem;color:var(--color-muted);margin-bottom:0.5rem;';
 
       var actions = document.createElement('div');
       actions.className = 'note-actions';
-      actions.style.cssText = 'display:flex;gap:0.5rem;';
 
       var editBtn = document.createElement('button');
       editBtn.type = 'button';
@@ -142,10 +130,6 @@
       delBtn.className = 'delete-btn';
       delBtn.textContent = '删除';
       delBtn.addEventListener('click', function () { deleteNote(note.id); });
-
-      [editBtn, delBtn].forEach(function (btn) {
-        btn.style.cssText = 'padding:0.25rem 0.75rem;font-size:0.8rem;border:1px solid var(--color-border);border-radius:6px;background:var(--color-bg);cursor:pointer;';
-      });
 
       actions.appendChild(editBtn);
       actions.appendChild(delBtn);
