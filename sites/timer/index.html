@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>倒计时器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>倒计时器</h1>
+    <div class="setup">
+      <label>
+        分
+        <input type="number" id="minutes-input" min="0" max="99" value="1">
+      </label>
+      <label>
+        秒
+        <input type="number" id="seconds-input" min="0" max="59" value="0">
+      </label>
+      <button id="set-btn" type="button">设置</button>
+    </div>
+    <div class="display" id="display">01:00</div>
+    <div class="alert" id="alert" hidden>时间到！</div>
+    <div class="controls">
+      <button id="start-btn" type="button">开始</button>
+      <button id="pause-btn" type="button" disabled>暂停</button>
+      <button id="reset-btn" type="button">重置</button>
+    </div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
