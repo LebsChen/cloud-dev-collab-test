@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>团队便签墙</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">团队便签墙</h1>
+  </header>
+  <main class="container">
+    <section class="note-form" aria-label="添加便签">
+      <input type="text" id="note-input" class="note-input" placeholder="写下你的便签……" aria-label="便签内容">
+      <button type="button" id="add-btn" class="add-btn">添加</button>
+    </section>
+    <section class="note-filter" aria-label="过滤便签">
+      <input type="search" id="filter-input" class="note-input filter-input" placeholder="按关键词过滤便签……" aria-label="按关键词过滤便签">
+    </section>
+    <section aria-label="便签列表">
+      <ul id="notes-list" class="notes-list">
+        <li class="note-card">示例便签：欢迎使用团队便签墙！</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 团队便签墙</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
